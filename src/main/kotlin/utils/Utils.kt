@@ -39,3 +39,25 @@ fun <T> permutations(list: Collection<T>): Set<List<T>> {
         }
     }
 }
+
+inline fun <T, R : Comparable<R>> Iterable<T>.allMaxBy(selector: (T) -> R): List<T> {
+    val iterator = iterator()
+    if (!iterator.hasNext())
+        return emptyList()
+    val maxElements = mutableListOf<T>(iterator.next())
+    if (!iterator.hasNext())
+        return maxElements
+    var maxValue = selector(maxElements.single())
+    do {
+        val item = iterator.next()
+        val value = selector(item)
+        if (maxValue == value) {
+            maxElements.add(item)
+        } else if (value > maxValue) {
+            maxElements.clear()
+            maxElements.add(item)
+            maxValue = value
+        }
+    } while (iterator.hasNext())
+    return maxElements
+}
