@@ -73,3 +73,13 @@ val <T> List2D<T>.sizeY
 
 val <T> List2D<T>.lastYIndex
     get() = lastIndex
+
+fun <T> List2D<T>.getAllAround(x: Int, y: Int, length: Int = 1): List<T> = buildList {
+    (x - 1..x + length).forEach { i ->
+        (y - 1..y + length).forEach { j ->
+            if (x != i || y != j) {
+                getAt(i, j)?.let { add(it) }
+            }
+        }
+    }
+}
