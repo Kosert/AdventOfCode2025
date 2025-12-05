@@ -44,9 +44,11 @@ inline fun <T, R : Comparable<R>> Iterable<T>.allMaxBy(selector: (T) -> R): List
     val iterator = iterator()
     if (!iterator.hasNext())
         return emptyList()
+
     val maxElements = mutableListOf<T>(iterator.next())
     if (!iterator.hasNext())
         return maxElements
+
     var maxValue = selector(maxElements.single())
     do {
         val item = iterator.next()
@@ -61,3 +63,5 @@ inline fun <T, R : Comparable<R>> Iterable<T>.allMaxBy(selector: (T) -> R): List
     } while (iterator.hasNext())
     return maxElements
 }
+
+fun LongRange.overlaps(other: LongRange): Boolean = this.first <= other.last && this.last >= other.first
