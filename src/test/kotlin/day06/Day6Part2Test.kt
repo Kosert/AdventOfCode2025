@@ -3,10 +3,10 @@ package day06
 import MultipleCasesTest
 import kotlin.test.Test
 
-class Day6Part2Test : MultipleCasesTest<String, Int>() {
+class Day6Part2Test : MultipleCasesTest<String, Long>() {
 
-    override val testData: List<Pair<String, Int>> = listOf(
-        day6TestInput to 123,
+    override val testData: List<Pair<String, Long>> = listOf(
+        day6TestInput to 3263827,
     )
 
     override fun execute(input: String) = day6Part2(input)
