@@ -6,7 +6,7 @@ import kotlin.test.Test
 class Day7Part1Test : MultipleCasesTest<String, Int>() {
 
     override val testData: List<Pair<String, Int>> = listOf(
-        day7TestInput to 123,
+        day7TestInput to 21,
     )
 
     override fun execute(input: String) = day7Part1(input)
