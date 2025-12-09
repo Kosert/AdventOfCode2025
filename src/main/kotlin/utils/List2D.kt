@@ -1,5 +1,7 @@
 package utils
 
+import kotlin.math.absoluteValue
+
 typealias List2D<T> = List<List<T>>
 
 typealias Position = Pair<Int, Int>
@@ -15,6 +17,20 @@ val Pair<Double, Double>.x
 
 val Pair<Double, Double>.y
     get() = second
+
+val Pair<Long, Long>.x
+    get() = first
+
+val Pair<Long, Long>.y
+    get() = second
+
+fun Position.manhattanDistance(other: Pair<Int, Int>): Int {
+    return (this.x - other.x).absoluteValue + (this.y - other.y).absoluteValue
+}
+
+fun Pair<Long, Long>.manhattanDistance(other: Pair<Long, Long>): Long {
+    return (this.x - other.x).absoluteValue + (this.y - other.y).absoluteValue
+}
 
 fun Position.moved(dir: Dir) = Position(this.x + dir.x, this.y + dir.y)
 
