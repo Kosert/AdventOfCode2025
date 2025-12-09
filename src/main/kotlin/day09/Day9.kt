@@ -49,46 +49,27 @@ fun day9Part2(input: String): Long {
         }
     }.toMutableMap()
 
-    fun testRange(
+    fun testRectangle(
         first: Pair<Int, Int>,
         second: Pair<Int, Int>,
-        step: Int? = null,
+        step: Int,
     ): Boolean {
-        val xValues: Set<Int>
-        val yValues: Set<Int>
-        if (step != null) {
-            xValues = listOf(first.x, second.x).sorted().let { (it.first()..it.last()).step(step).toSet() + it.last() }
-            yValues = listOf(first.y, second.y).sorted().let { (it.first()..it.last()).step(step).toSet() + it.last() }
-        } else {
-            xValues = setOf(first.x, second.x)
-            yValues = setOf(first.y, second.y)
-        }
-        return xValues.all { x ->
-            yValues.all { y ->
-                containsPoint(reds, x to y)
-            }
-        }
+        val xValues: Set<Int> = listOf(first.x, second.x).sorted().let { (it.first()..it.last()).step(step).toSet() + it.last() }
+        val yValues: Set<Int> = listOf(first.y, second.y).sorted().let { (it.first()..it.last()).step(step).toSet() + it.last() }
+
+        val edges = yValues.mapTo(mutableSetOf()) { first.x to it } +
+            yValues.mapTo(mutableSetOf()) { second.x to it } +
+            xValues.mapTo(mutableSetOf()) { it to first.y } +
+            xValues.mapTo(mutableSetOf()) { it to second.y }
+
+        return edges.all { containsPoint(reds, it) }
     }
 
     val biggest = areas.entries.sortedByDescending { it.value }
         .asSequence()
-        .filter { (pair, _) ->
-            testRange(pair.first(), pair.last())
-        }
-        .filter { (pair, _) ->
-            testRange(pair.first(), pair.last(), 1000)
-        }
-        .filter { (pair, _) ->
-            testRange(pair.first(), pair.last(), 100)
-        }
-        //more accuracy probably not needed
-//        .filter { (pair, _) ->
-//            testRange(pair.first(), pair.last(), 10)
-//        }
-//        .filter { (pair, _) ->
-//            testRange(pair.first(), pair.last(), 1)
-//        }
-        .first()
+        .filter { (pair, _) -> testRectangle(pair.first(), pair.last(), Int.MAX_VALUE) }
+        .filter { (pair, _) -> testRectangle(pair.first(), pair.last(), 1000) }
+        .first { (pair, _) -> testRectangle(pair.first(), pair.last(), 1) }
     return biggest.value
 }
 
