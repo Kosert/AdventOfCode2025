@@ -1,6 +1,6 @@
 package utils
 
-fun Any?.println() = println(this)
+fun <T : Any?> T.println() = also { println(this) }
 
 fun <T> List<T>.dropIndex(index: Int): List<T> = subList(0, index) + subList(index + 1, this.size)
 
